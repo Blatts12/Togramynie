@@ -4,16 +4,10 @@ export default function MainPageContent() {
   return (
     <Container>
         <div class="container-fluid text-center text-md-center">
-            <h3>Lorem ipsum</h3>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
-                Expedita sapiente sint, nulla, nihil repudiandae commodi voluptatibus corrupti animi sequi aliquid magnam debitis, 
-                maxime quam recusandae harum esse fugiat. Itaque, culpa?
-            </p>
-
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
-                Expedita sapiente sint, nulla, nihil repudiandae commodi voluptatibus corrupti animi sequi aliquid magnam debitis, 
-                maxime quam recusandae harum esse fugiat. Itaque, culpa?
-            </p>
+            <p>Lubisz grać w gry planszowe ale męczą cię dołączone do nich liczniki punktów lub statystyk? 
+                Któryś z twoich znajomych ma problem z policzeniem zadawanych obrażeń w grze karcianej lub zabiera to zbyt dużo czasu?
+                Nie chcesz uszkodzić dołączonych do gry liczników lub gdzieś ich zgubić?
+                Jeżeli odpowiedź na któreś z powyższych pytań była pozytywna to ta strona jest właśnie dla ciebie!</p>
         </div>
     </Container>
   );

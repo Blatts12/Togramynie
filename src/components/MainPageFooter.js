@@ -7,16 +7,18 @@ export default function MainPageFooter() {
         <div class="container-fluid text-center text-md-left">
             <div class="row">
                 <div class="col-md-6 mt-md-0 mt-3">
-                    <h5 class="text-uppercase font-weight-bold">About</h5>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita sapiente sint, nulla, nihil
-                    repudiandae commodi voluptatibus corrupti animi sequi aliquid magnam debitis, maxime quam recusandae
-                    harum esse fugiat. Itaque, culpa?</p>
+                    <h5 class="text-uppercase font-weight-bold">O stronie</h5>
+                    <p>Strona została stworzona w celu ułatwienia i przyśpieszenia procesu rozgrywki w gry planszowe lub karciane, 
+                        poprzez udostępnienie internetowego licznika punktów lub statystyk z wykorzystaniem template-ów.</p>
                 </div>
                 <div class="col-md-6 mb-md-0 mb-3">
-                    <h5 class="text-uppercase font-weight-bold">Contact</h5>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita sapiente sint, nulla, nihil
-                    repudiandae commodi voluptatibus corrupti animi sequi aliquid magnam debitis, maxime quam recusandae
-                    harum esse fugiat. Itaque, culpa?</p>
+                    <h5 class="text-uppercase font-weight-bold">Kontakt</h5>
+                    <p>W celu skontaktowania się z twórcami tej strony internetowej użyj jednego z poniższych adresów e-mail:
+                        <ul>
+                            <li><a href="mailto:example@gmail.com">example@gmail.com</a></li>
+                            <li><a href="mailto:example2@gmail.com">example2@gmail.com</a></li>
+                        </ul>
+                    </p>
                 </div>
             </div>
         </div>
