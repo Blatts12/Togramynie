@@ -1,11 +1,14 @@
 import Container from "react-bootstrap/Container";
 import MainPageHeader from "../components/MainPageHeader";
+import MainPageFooter from "../components/MainPageFooter";
+import MainPageContent from "../components/MainPageContent";
 
 function Index() {
   return (
     <Container>
-      <h1>Siema siema kurwa witam twoja stara to kapitan!</h1>
       <MainPageHeader/>
+      <MainPageContent/>
+      <MainPageFooter/>
     </Container>
   );
 }
