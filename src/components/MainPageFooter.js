@@ -14,7 +14,7 @@ export default function MainPageFooter() {
                 <div class="col-md-6 mb-md-0 mb-3">
                     <h5 class="text-uppercase font-weight-bold">Kontakt</h5>
                     <p>W celu skontaktowania się z twórcami tej strony internetowej użyj jednego z poniższych adresów e-mail:
-                        <ul>
+                        <ul class="list-unstyled">
                             <li><a href="mailto:example@gmail.com">example@gmail.com</a></li>
                             <li><a href="mailto:example2@gmail.com">example2@gmail.com</a></li>
                         </ul>
