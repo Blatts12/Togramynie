@@ -9,7 +9,7 @@ const authRoutes = require("./routes/auth-routes");
 const gameRoutes = require("./routes/game-routes");
 const User = require("./models/userModel");
 const loginStrategy = require("./strategies/login-strategy");
-const regStrategy = require("./reg-strategy");
+const regStrategy = require("./strategies/reg-strategy");
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({

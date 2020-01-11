@@ -1,5 +1,5 @@
 const LocalStrategy = require("passport-local");
-const User = require("./models/userModel");
+const User = require("../models/userModel");
 const bCrypt = require("bcrypt");
 
 var createHash = function(password) {
