@@ -40,8 +40,8 @@
     "uid-safe": "^2.1.5"
   },
   "devDependencies": {
+    "@svgr/webpack": "^5.0.1",
     "file-loader": "^5.0.2",
-    "svg-inline-loader": "^0.8.0",
     "url-loader": "^3.0.0"
   }
 }
