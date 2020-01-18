@@ -33,6 +33,11 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
           <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href="/static/favicon.ico"
+          />
+          <link
             rel="stylesheet"
             href="https://bootswatch.com/4/darkly/bootstrap.min.css"
           />
