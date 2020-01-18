@@ -12,7 +12,9 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx);
     }
     if (ctx.req && ctx.req.session.passport) {
-      pageProps.user = ctx.req.session.passport.user;
+      pageProps.user = ctx.req.user;
+      pageProps.user.password = "admin 100% legit";
+      pageProps.user.__v = "-1";
     }
     return { pageProps };
   }
