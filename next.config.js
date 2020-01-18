@@ -4,8 +4,18 @@ const path = require("path");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
-  webpack: config => {
+  webpack: (config, { isServer }) => {
     config.plugins = config.plugins || [];
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"]
+    });
+
+    if (!isServer) {
+      config.node = {
+        fs: "empty"
+      };
+    }
 
     config.plugins = [
       ...config.plugins,

@@ -1,3 +1,4 @@
+require("dotenv").config();
 import Form from "react-bootstrap/Form";
 import Router from "next/router";
 import Button from "react-bootstrap/Button";
@@ -21,25 +22,28 @@ export default function Login() {
         password
       })
     });
-    Router.push("/");
+    window.location.href = process.env.BASE_URL;
   }
 
   return (
     <Container>
       <Form onSubmit={submit}>
-        <Form.Label>Login</Form.Label>
+        <Form.Label>
+          <h2>Login</h2>
+        </Form.Label>
         <Form.Control
           type="text"
-          placeholder="username"
+          placeholder="Username"
           onChange={e => setUsername(e.target.value)}
           value={username}
         />
         <Form.Control
-          type="passoword"
-          placeholder="password"
+          type="password"
+          placeholder="Password"
           onChange={e => setPassword(e.target.value)}
           value={password}
         />
+        <br />
         <Button variant="primary" type="submit">
           Login
         </Button>
