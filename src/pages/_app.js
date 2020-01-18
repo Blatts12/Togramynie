@@ -1,5 +1,5 @@
 import React from "react";
-import App, { Container as NextContainer } from "next/app";
+import App from "next/app";
 import Head from "next/head";
 import Container from "react-bootstrap/Container";
 import Jumbotron from "react-bootstrap/Jumbotron";
@@ -35,17 +35,13 @@ class MyApp extends App {
     };
 
     return (
-      <NextContainer>
+      <div>
         <Head>
           <title>Togramynie</title>
         </Head>
         <Navbar user={this.state.user} />
-        <Container>
-          <Jumbotron>
-            <Component {...props} />
-          </Jumbotron>
-        </Container>
-      </NextContainer>
+        <Component {...props} />
+      </div>
     );
   }
 }
