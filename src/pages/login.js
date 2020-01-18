@@ -12,7 +12,7 @@ export default function Login() {
 
   async function submit(event) {
     event.preventDefault();
-    await fetch("/login", {
+    var response = await fetch("/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -22,7 +22,8 @@ export default function Login() {
         password
       })
     });
-    window.location.href = process.env.BASE_URL;
+    if (response.status === 200) window.location.href = process.env.BASE_URL;
+    else alert("Incorrect credentials!");
   }
 
   return (
