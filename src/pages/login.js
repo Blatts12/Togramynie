@@ -1,9 +1,7 @@
 require("dotenv").config();
 import Form from "react-bootstrap/Form";
-import Router from "next/router";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import passport from "passport";
 const { useState } = require("react");
 
 export default function Login() {
