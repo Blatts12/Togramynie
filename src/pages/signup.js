@@ -14,26 +14,6 @@ export default function Signup() {
 
   async function submit(event) {
     event.preventDefault();
-    /*if (pwRegex.test(password)) {
-      var response = await fetch("/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username,
-          password
-        })
-      });
-      if (response.status === 200) window.location.href = process.env.BASE_URL;
-      else {
-        var data = response.json();
-        console.log(data);
-        alert(response);
-      }
-    } else {
-      alert("The password does not meet the requirements");
-    }*/
     if (pwRegex.test(password)) {
       axios
         .post("/signup", {
@@ -57,25 +37,25 @@ export default function Signup() {
     <Container>
       <Form onSubmit={submit}>
         <Form.Label>
-          <h2>Register</h2>
+          <h2>Rejestracja</h2>
         </Form.Label>
         <Form.Control
           type="text"
-          placeholder="Username"
+          placeholder="Nazwa użytkownika"
           onChange={e => setUsername(e.target.value)}
           value={username}
         />
         <Form.Control
           type="password"
-          placeholder="Password"
+          placeholder="Hasło"
           onChange={e => setPassword(e.target.value)}
           value={password}
         />
-        Password length 6 - 10, 1 digit, 1 lowercase, 1 uppercase
+        Hasło o długości 6 - 20, 1 cyfra, 1 mała litera, 1 wielka litera
         <br />
         <br />
         <Button variant="primary" type="submit">
-          Register
+          Zarejestruj się
         </Button>
       </Form>
     </Container>

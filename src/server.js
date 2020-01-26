@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const uid = require("uid-safe");
 const authRoutes = require("./routes/auth-routes");
 const gameRoutes = require("./routes/game-routes");
+const roomRoutes = require("./routes/room-routes");
 const User = require("./models/userModel");
 const loginStrategy = require("./strategies/login-strategy");
 
@@ -54,6 +55,7 @@ app.prepare().then(() => {
   server.use(passport.session());
   server.use(authRoutes(passport));
   server.use(gameRoutes());
+  server.use(roomRoutes());
 
   const restrictAccess = (req, res, next) => {
     if (!req.isAuthenticated()) return res.redirect("/login");

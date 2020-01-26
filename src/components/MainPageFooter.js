@@ -23,7 +23,7 @@ export default function MainPageFooter() {
             </div>
         </div>
         
-        <div class="footer text-center py-3">
+        <div className ="footer text-center py-3">
             <p>2020 Project: Advanced Object Oriented Programming</p>
         </div>
     </footer>

@@ -6,13 +6,9 @@ import MainPageContent from "../components/MainPageContent";
 function Index() {
   return (
     <Container>
-<<<<<<< HEAD
-      <h1>Eldoka na wolno poznaj moją myśl uwolnioną!</h1>
-=======
       <MainPageHeader/>
       <MainPageContent/>
       <MainPageFooter/>
->>>>>>> origin/master
     </Container>
   );
 }

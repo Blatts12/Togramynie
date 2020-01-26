@@ -1,40 +1,44 @@
 require("dotenv").config();
 import Form from "react-bootstrap/Form";
+import Router from "next/router";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import axios from "axios";
 const { useState } = require("react");
 
-export default function Login() {
-  const [username, setUsername] = useState("");
+export default function CreateRoom({ user }) {
+  const [room_name, setRoomName] = useState("");
   const [password, setPassword] = useState("");
 
   async function submit(event) {
     event.preventDefault();
-    var response = await fetch("/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username,
-        password
+    axios
+      .put("/api/room", {
+        room_name,
+        password,
+        username: user.username
       })
-    });
-    if (response.status === 200) window.location.href = process.env.BASE_URL;
-    else alert("Incorrect credentials!");
+      .then(response => {
+        if (response.data.msg == "Success") {
+          window.location.href = process.env.BASE_URL;
+        } else {
+          alert(response.data.msg);
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   return (
     <Container>
       <Form onSubmit={submit}>
         <Form.Label>
-          <h2>Logowanie</h2>
+          <h2>Utwórz pokój</h2>
         </Form.Label>
         <Form.Control
           type="text"
-          placeholder="Nazwa użykownika"
-          onChange={e => setUsername(e.target.value)}
-          value={username}
+          placeholder="Nazwa pokoju"
+          onChange={e => setRoomName(e.target.value)}
+          value={room_name}
         />
         <Form.Control
           type="password"
@@ -42,10 +46,11 @@ export default function Login() {
           onChange={e => setPassword(e.target.value)}
           value={password}
         />
+        <p>Tutaj będzie wybieranie gry</p>
         <br />
         <br />
         <Button variant="primary" type="submit">
-          Zaloguj się
+          Stwórz
         </Button>
       </Form>
     </Container>
