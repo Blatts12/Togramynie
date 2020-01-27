@@ -47,19 +47,25 @@ module.exports = function() {
     });
   });
 
-  Router.get("/api/room", (req, res, next) => {
-    TestRoom.findOne({ room_name: req.body.room_name }, (err, room) => {
-      if (err) res.status(500).send();
-      else if (!room)
-        res.status(200).json({ msg: "Pokój z tą nazwą nie istnieje!" });
-      else res.status(200).json({ room });
-    });
+  Router.post("/api/room", (req, res, next) => {
+    TestRoom.find(
+      {
+        room_name: req.body.room_name,
+        "users.username": req.body.username
+      },
+      (err, room) => {
+        if (err) res.status(500).send();
+        else if (!room)
+          res.status(200).json({ msg: "Pokój z tą nazwą nie istnieje!" });
+        else res.status(200).json({ room });
+      }
+    );
   });
 
   Router.delete("/api/room", (req, res, next) => {
     TestRoom.deleteOne({ room_name: req.body.room_name }, err => {
       if (err) res.status(500).send();
-      else res.status(200).json({ msg: "Usuwanie zakończone pomyśłnie!" });
+      else res.status(200).json({ msg: "Usuwanie zakończone pomyślnie!" });
     });
   });
 
@@ -76,10 +82,27 @@ module.exports = function() {
     });
   });
 
+  Router.post("/api/room/user/check", (req, res, next) => {
+    TestRoom.find(
+      {
+        room_name: req.body.room_name,
+        "users.username": req.body.username
+      },
+      (err, test) => {
+        if (err) res.status(500).send();
+        else if (!test)
+          res.status(200).json({
+            msg: "Pokój nie istnieje lub nie należysz do tego pokoju!"
+          });
+        else res.status(200).json({ room: test });
+      }
+    );
+  });
+
   Router.post("/api/room/user/value/update", (req, res, next) => {
     TestRoom.update(
       { room_name: req.body.room_name, "users.user_id": req.body.user_id },
-      { $set: { "grades.$.value": req.body.new_value } }
+      { $set: { "users.$.value": req.body.new_value } }
     );
   });
 

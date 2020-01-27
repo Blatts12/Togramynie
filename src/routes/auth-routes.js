@@ -30,10 +30,9 @@ module.exports = function(passport) {
     User.findOne({ username: req.body.username }, function(err, user) {
       if (err) res.status(500).send();
       else if (!pwRegex.test(req.body.password))
-        res
-          .status(200)
-          .json({ msg: "The password does not meet the requirements" });
-      else if (user) res.status(200).json({ msg: "Username is already taken" });
+        res.status(200).json({ msg: "Hasło nie spełnia wymagań!" });
+      else if (user)
+        res.status(200).json({ msg: "Nazwa użytkownika nie jest dostępna!" });
       else {
         var newUser = new User();
         newUser.username = req.body.username;

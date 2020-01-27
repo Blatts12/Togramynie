@@ -2,20 +2,22 @@ require("dotenv").config();
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import axios from "axios";
 const { useState } = require("react");
 
-export default function Login() {
+export default function ToRoom({ user }) {
   const [room_name, setRoomName] = useState("");
 
   async function submit(event) {
     event.preventDefault();
     axios
-      .put("/api/room/join", {
-        room_name
+      .post("/api/room/user/check", {
+        room_name,
+        username: user.username
       })
       .then(response => {
         if (response.data.msg == "Success") {
-          window.location.href = process.env.BASE_URL;
+          window.location.href = process.env.BASE_URL + "profile";
         } else {
           alert(response.data.msg);
         }

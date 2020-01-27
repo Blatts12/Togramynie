@@ -29,7 +29,7 @@ export default function Signup() {
         })
         .catch(err => console.log(err));
     } else {
-      alert("The password does not meet the requirements");
+      alert("Hasło nie spełnia wymagań!");
     }
   }
 

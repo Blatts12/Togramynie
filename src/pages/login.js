@@ -21,7 +21,7 @@ export default function Login() {
       })
     });
     if (response.status === 200) window.location.href = process.env.BASE_URL;
-    else alert("Incorrect credentials!");
+    else alert("Niepoprawne hasło lub nazwa użytkownika!");
   }
 
   return (
