@@ -1,12 +1,16 @@
 require("dotenv").config();
-const express = require("express");
+const expressApp = require("express")();
+const server = require("http").Server(expressApp);
 const next = require("next");
 const session = require("express-session");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const uid = require("uid-safe");
+const io = require("socket.io")(server);
+const axios = require("axios");
 const authRoutes = require("./routes/auth-routes");
 const gameRoutes = require("./routes/game-routes");
+const roomRoutes = require("./routes/room-routes");
 const User = require("./models/userModel");
 const loginStrategy = require("./strategies/login-strategy");
 
@@ -23,10 +27,21 @@ mongoose.connect(process.env.DB_CON, {
   useCreateIndex: true
 });
 
+io.on("connection", socket => {
+  socket.on("updateRoom", data => {
+    axios.post("/api/room/user/value/update", {
+      room_name: data.room_name,
+      username: data.username,
+      new_value: data.new_value
+    });
+    socket.broadcast.emit("updateRoom", data);
+  });
+});
+
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  const server = express();
+  //const server = express();
 
   const sessionConfig = {
     secret: uid.sync(18),
@@ -36,7 +51,7 @@ app.prepare().then(() => {
     resave: false,
     saveUninitialized: true
   };
-  server.use(session(sessionConfig));
+  expressApp.use(session(sessionConfig));
 
   passport.serializeUser(function(user, done) {
     done(null, user._id);
@@ -50,19 +65,24 @@ app.prepare().then(() => {
 
   loginStrategy(passport);
 
-  server.use(passport.initialize());
-  server.use(passport.session());
-  server.use(authRoutes(passport));
-  server.use(gameRoutes());
+  expressApp.use(passport.initialize());
+  expressApp.use(passport.session());
+  expressApp.use(authRoutes(passport));
+  expressApp.use(gameRoutes());
+  expressApp.use(roomRoutes());
 
   const restrictAccess = (req, res, next) => {
     if (!req.isAuthenticated()) return res.redirect("/login");
     next();
   };
 
-  server.use("/profile", restrictAccess);
+  expressApp.use("/profile", restrictAccess);
+  expressApp.use("/room/*", restrictAccess);
+  expressApp.use("/create-room", restrictAccess);
+  expressApp.use("/join-room", restrictAccess);
+  expressApp.use("/to-room", restrictAccess);
 
-  server.get("*", handle);
+  expressApp.get("*", handle);
 
   server.listen(process.env.PORT, () =>
     console.log(`Listening on ${process.env.PORT}`)
