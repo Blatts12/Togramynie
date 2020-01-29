@@ -28,3 +28,10 @@ module.exports.CreateInputComponent = (value) => {
 
     return input;
 };
+
+module.exports.CreateGameStats = (name, max, defaultVal) =>{
+    var input = new gameStatsModel();
+    input.name = name;
+    input.max = max;
+    input.defaultVal = defaultVal;
+};
