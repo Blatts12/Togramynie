@@ -1,38 +1,40 @@
-import Link from "next/link";
 import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 export default function AppNavbar({ user }) {
-  const navbarStyle = { marginBottom: "25px" };
   return (
-    <Navbar bg="light" expand="lg" style={navbarStyle}>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand>
-          <Link href="/">
-            <a>Thoughts!</a>
-          </Link>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+      <Navbar.Brand href="/">Togramynie</Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      {user && (
+        <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            {user && (
-              <>
-                <Link href="/profile">
-                  <a className="nav-link">Profile</a>
-                </Link>
-                <Link href="/logout">
-                  <a className="nav-link">Log Out</a>
-                </Link>
-              </>
-            )}
-            {!user && (
-              <Link href="/login">
-                <a className="nav-link">Log In</a>
-              </Link>
-            )}
+            <Nav.Link href="/">Strona Główna</Nav.Link>
+            <Nav.Link href="/profile">Profil</Nav.Link>
+            <NavDropdown title="Pokój" id="collasible-nav-dropdown">
+              <NavDropdown.Item href="/create-room">Stwórz</NavDropdown.Item>
+              <NavDropdown.Divider/>
+              <NavDropdown.Item href="/join-room">Dołącz</NavDropdown.Item>
+              <NavDropdown.Item href="/to-room">Wejdź</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <Nav>
+            <Nav.Link href="/logout">Wyloguj</Nav.Link>
           </Nav>
         </Navbar.Collapse>
+      )}
+      {!user && (
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="/">Strona Główna</Nav.Link>
+          </Nav>
+          <Nav>
+            <Nav.Link href="/signup">Zarejestruj</Nav.Link>
+            <Nav.Link href="/login">Zaloguj</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      )}
       </Container>
     </Navbar>
   );
