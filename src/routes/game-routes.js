@@ -32,6 +32,7 @@ module.exports = function() {
   });
 
   Router.post("/api/game", (req, res, next) => {
+    console.log(req.body);
     gameModel.findOne({
       game_name: req.body.game_name
     },
@@ -41,6 +42,19 @@ module.exports = function() {
         res.status(200).json({msg: "Gra z tą nazwą nie istnieje!"});
       }else{
         res.status(200).json({game});
+      }
+    });
+  });
+
+  Router.post("/api/game/list", (req, res, next) =>{
+    gameModel.find({}, (err,games) => {
+      if(err) res.status(500).send();
+      else{
+        var gamesReMap = [];
+        games.forEach(game => {
+          gamesReMap.push(game.game_name);
+        })
+        res.status(200).json({gamesList: gamesReMap});
       }
     });
   });
