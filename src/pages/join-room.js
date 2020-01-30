@@ -19,7 +19,7 @@ export default function JoinRoom({ user }) {
       })
       .then(response => {
         if (response.data.msg == "Success") {
-          window.location.href = process.env.BASE_URL;
+          window.location.href = process.env.BASE_URL + "room/" + room_name;
         } else {
           alert(response.data.msg);
         }
@@ -48,7 +48,7 @@ export default function JoinRoom({ user }) {
         <br />
         <br />
         <Button variant="primary" type="submit">
-          Login
+          Dołącz
         </Button>
       </Form>
     </Container>

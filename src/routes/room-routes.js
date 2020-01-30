@@ -83,7 +83,7 @@ module.exports = function() {
   });
 
   Router.post("/api/room/user/check", (req, res, next) => {
-    TestRoom.find(
+    TestRoom.findOne(
       {
         room_name: req.body.room_name,
         "users.username": req.body.username
@@ -94,7 +94,7 @@ module.exports = function() {
           res.status(200).json({
             msg: "Pokój nie istnieje lub nie należysz do tego pokoju!"
           });
-        else res.status(200).json({ room: test });
+        else res.status(200).json({ msg: "Success" });
       }
     );
   });

@@ -15,35 +15,35 @@ export default function Signup() {
   const [incrementators, setIncrementators] = useState("");
   const [decrementators, setDecrementators] = useState("");
 
-  function prepareGameStats(){
-      var tab = [];
-      var names = gameStatsName.split(",");
-      var max = gameStatsMax.split(",");
-      var defaults = gameStatsDefault.split(",");
-      for(let i = 0; i<names.length; i++){
-        tab.push({value_name: names[i], value_max: max[i], value_default: defaults[i]});
-      }
-      return tab;
+  function prepareGameStats() {
+    var tab = [];
+    var names = gameStatsName.split(",");
+    var max = gameStatsMax.split(",");
+    var defaults = gameStatsDefault.split(",");
+    for (let i = 0; i < names.length; i++) {
+      tab.push({
+        value_name: names[i],
+        value_max: max[i],
+        value_default: defaults[i]
+      });
+    }
+    return tab;
   }
 
   async function submit(event) {
     event.preventDefault();
-      axios
-        .put("/api/game", {
-          game_name: gameName,
-          game_max_players: maxPlayers,
-          gameStats: prepareGameStats(),
-          incrementators: incrementators.split(","),
-          decrementators: decrementators.split(",")
-        })
-        .then(response => {
-          if (response.data.msg == "Success") {
-            window.location.href = process.env.BASE_URL;
-          } else {
-            alert(response.data.msg);
-          }
-        })
-        .catch(err => console.log(err));
+    axios
+      .put("/api/game", {
+        game_name: gameName,
+        game_max_players: maxPlayers,
+        gameStats: prepareGameStats(),
+        incrementators: incrementators.split(","),
+        decrementators: decrementators.split(",")
+      })
+      .then(response => {
+        alert(response.data.msg);
+      })
+      .catch(err => console.log(err));
   }
 
   return (
@@ -94,8 +94,12 @@ export default function Signup() {
           onChange={e => setDecrementators(e.target.value)}
           value={decrementators}
         />
+        Tam gdzie daje się więcej zmiennych, np. GameStatsName, to następną
+        zmienną dajesz po przecinku bez spacji
+        <br />
+        <br />
         <Button variant="primary" type="submit">
-            Dodaj
+          Dodaj
         </Button>
       </Form>
     </Container>
