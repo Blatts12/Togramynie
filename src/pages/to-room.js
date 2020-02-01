@@ -28,6 +28,7 @@ export default function ToRoom({ user }) {
   return (
     <Container>
       <Form onSubmit={submit}>
+        <br />
         <Form.Label>
           <h2>Wejdź do pokoju</h2>
         </Form.Label>

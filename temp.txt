@@ -1,0 +1,10 @@
+<DropdownButton id="gameList" title="Lista Gier">
+          {gameList.map(game => {
+            console.log(game);
+            return (
+              <Dropdown.Item key={game} eventKey={game}>
+                game
+              </Dropdown.Item>
+            );
+          })}
+        </DropdownButton>

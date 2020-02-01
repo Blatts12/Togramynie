@@ -31,7 +31,6 @@ module.exports = function() {
   });
 
   Router.post("/api/game", (req, res, next) => {
-    console.log(req.body);
     gameModel.findOne(
       {
         game_name: req.body.game_name
@@ -55,7 +54,7 @@ module.exports = function() {
         games.forEach(game => {
           gamesReMap.push(game.game_name);
         });
-        res.status(200).json({ gamesList: gamesReMap });
+        res.status(200).json({ gameList: gamesReMap });
       }
     });
   });

@@ -30,6 +30,7 @@ export default function JoinRoom({ user }) {
   return (
     <Container>
       <Form onSubmit={submit}>
+        <br />
         <Form.Label>
           <h2>Dołącz do pokoju</h2>
         </Form.Label>

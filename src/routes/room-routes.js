@@ -1,11 +1,13 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const Router = express.Router();
-//const Room = require("../models/roomModel");
 const TestRoom = require("../models/tempRoomModel");
 const createUserElement = TestRoom.createUserElement;
-//const createValueElementsFromGame = TestRoom.createValueElementsFromGame;
+
+const Room = require("../models/roomModel");
+const CreateUserElement = Room.createUserElement;
 const bCrypt = require("bcrypt");
+const axios = require("axios");
 
 var createHash = function(password) {
   return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
@@ -25,19 +27,22 @@ Router.use(bodyParser.json());
 
 module.exports = function() {
   Router.put("/api/room", (req, res, next) => {
-    TestRoom.findOne({ room_name: req.body.room_name }, (err, room) => {
+    Room.findOne({ room_name: req.body.room_name }, (err, room) => {
       if (err) res.status(500).send();
       else if (room)
         res.status(200).json({ msg: "Pokój z tą nazwą już istnieje!" });
       else {
-        var newRoom = new TestRoom();
+        var newRoom = new Room();
         newRoom.room_name = req.body.room_name;
-        newRoom.game_id = "temp";
+        newRoom.game_name = req.body.game.game_name;
         newRoom.password = createHash(req.body.password);
-        newRoom.max_players = 2;
+        newRoom.max_players = req.body.game.game_max_players;
         newRoom.create_date = new Date();
         newRoom.limit_date = addDays(new Date(), 3);
-        newRoom.users.push(createUserElement(req.body.username, 1, true));
+
+        newRoom.users.push(
+          CreateUserElement(req.body.username, req.body.game.game_stats, true)
+        );
 
         newRoom.save(function(err) {
           if (err) throw err;
@@ -48,7 +53,7 @@ module.exports = function() {
   });
 
   Router.post("/api/room", (req, res, next) => {
-    TestRoom.find(
+    Room.find(
       {
         room_name: req.body.room_name,
         "users.username": req.body.username
@@ -63,20 +68,27 @@ module.exports = function() {
   });
 
   Router.delete("/api/room", (req, res, next) => {
-    TestRoom.deleteOne({ room_name: req.body.room_name }, err => {
+    Room.deleteOne({ room_name: req.body.room_name }, err => {
       if (err) res.status(500).send();
       else res.status(200).json({ msg: "Usuwanie zakończone pomyślnie!" });
     });
   });
 
   Router.put("/api/room/user/add", (req, res, next) => {
-    TestRoom.findOne({ room_name: req.body.room_name }, (err, room) => {
+    Room.findOne({ room_name: req.body.room_name }, (err, room) => {
       if (err) res.status(500).send();
       else if (!room)
         res.status(200).json({ msg: "Pokój z tą nazwą nie istnieje!" });
       else {
+        let game = axios
+          .post("/api/game", {
+            game_name: room.game_name
+          })
+          .then(resp => resp.data.game);
         room.update({
-          $push: { users: createUserElement(req.body.user_id, 1, false) }
+          $push: {
+            users: createUserElement(req.body.user_name, game.game_stats, false)
+          }
         });
       }
     });
@@ -124,7 +136,16 @@ module.exports = function() {
             else if (test.length > 0)
               res.status(200).json({ msg: "Jesteś w tym pokoju!" });
             else {
-              var userElement = createUserElement(req.body.username, 1, false);
+              let game = axios
+                .post("/api/game", {
+                  game_name: room.game_name
+                })
+                .then(resp => resp.data.game);
+              var userElement = createUserElement(
+                req.body.username,
+                game.game_stats,
+                false
+              );
               TestRoom.updateOne(
                 { room_name: req.body.room_name },
                 {
