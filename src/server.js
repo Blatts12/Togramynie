@@ -34,6 +34,9 @@ io.on("connection", socket => {
     });
     socket.broadcast.emit("updateRoom", data);
   });
+  socket.on("joinRoom", data => {
+    socket.broadcast.emit("joinRoom", data);
+  });
 });
 
 const handle = app.getRequestHandler();

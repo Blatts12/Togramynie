@@ -83,6 +83,13 @@ function Room({ user, room }) {
     return {};
   };
 
+  var userJoined = userData => {
+    let newRoomState = roomState;
+    newRoomState.users.push(userData);
+    setRoomState(newRoomState);
+    setTest(test + 1);
+  };
+
   var setValue = (username, value_name, newValue) => {
     let newRoomState = roomState;
     for (let u of newRoomState.users) {
@@ -101,6 +108,12 @@ function Room({ user, room }) {
   const socket = useSocket("updateRoom", data => {
     if (data.room_name == roomState.room_name) {
       setValue(data.username, data.value_name, data.new_value);
+    }
+  });
+
+  useSocket("joinRoom", data => {
+    if (data.room_name == roomState.room_name) {
+      userJoined(data.userData);
     }
   });
 

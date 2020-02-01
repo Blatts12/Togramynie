@@ -3,11 +3,16 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
+import useSocket from "../hooks/useSocket";
 const { useState } = require("react");
 
 export default function JoinRoom({ user }) {
   const [room_name, setRoomName] = useState("");
   const [password, setPassword] = useState("");
+
+  const socket = useSocket("joinRoom", data => {
+    console.log("join");
+  });
 
   async function submit(event) {
     event.preventDefault();
@@ -39,6 +44,10 @@ export default function JoinRoom({ user }) {
         })
         .then(response => {
           if (response.data.msg == "Success") {
+            socket.emit("joinRoom", {
+              room_name: room_name,
+              userData: response.data.userData
+            });
             window.location.href = process.env.BASE_URL + "room/" + room_name;
           } else {
             alert(response.data.msg);

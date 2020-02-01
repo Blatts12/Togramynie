@@ -90,7 +90,8 @@ module.exports = function() {
             },
             err => {
               if (err) res.status(500).send();
-              else res.status(200).json({ msg: "Success" });
+              else
+                res.status(200).json({ msg: "Success", userData: userElement });
             }
           );
         }
