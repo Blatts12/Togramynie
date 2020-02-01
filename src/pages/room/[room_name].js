@@ -214,7 +214,7 @@ function Room({ user, room }) {
                     }}
                     value={inc}
                   >
-                    {inc}
+                    {" " + inc}
                   </Crementator>
                 </Col>
               );

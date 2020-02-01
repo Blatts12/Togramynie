@@ -122,101 +122,31 @@ module.exports = function() {
     });
   });
 
-  Router.post("/api/room/user/value/update", (req, res, next) => {
-    Room.update(
-      { room_name: req.body.room_name, "users.user_id": req.body.user_id },
-      { $set: { "users.$.value": req.body.new_value } }
-    );
-  });
-
-  /*Router.put("/api/room/user/add", (req, res, next) => {
-    Room.findOne({ room_name: req.body.room_name }, (err, room) => {
-      if (err) res.status(500).send();
-      else if (!room)
-        res.status(200).json({ msg: "Pokój z tą nazwą nie istnieje!" });
-      else {
-        let game = axios
-          .post("/api/game", {
-            game_name: room.game_name
-          })
-          .then(resp => resp.data.game);
-        room.update({
-          $push: {
-            users: createUserElement(req.body.user_name, game.game_stats, false)
-          }
-        });
-      }
-    });
-  });*/
-
-  /* Router.post("/api/room/user/check", (req, res, next) => {
-    TestRoom.findOne(
+  Router.post("/api/room/update", (req, res, next) => {
+    Room.findOne(
       {
-        room_name: req.body.room_name,
-        "users.username": req.body.username
+        room_name: req.body.room_name
       },
-      (err, test) => {
+      (err, room) => {
         if (err) res.status(500).send();
-        else if (!test)
-          res.status(200).json({
-            msg: "Pokój nie istnieje lub nie należysz do tego pokoju!"
-          });
-        else res.status(200).json({ msg: "Success" });
-      }
-    );
-  });*/
-
-  /*Router.post("/api/room/join", (req, res, next) => {
-    Room.findOne({ room_name: req.body.room_name }, (err, room) => {
-      if (err) res.status(500).send();
-      else if (!room)
-        res.status(200).json({ msg: "Pokój z tą nazwą nie istnieje!" });
-      else if (!isValidPassword(room, req.body.password))
-        res.status(200).json({ msg: "Niepoprawne hasło!" });
-      else {
-        Room.find(
-          {
-            room_name: req.body.room_name,
-            "users.username": req.body.username
-          },
-          (err, test) => {
-            if (err) res.status(500).send();
-            else if (test.length > 0)
-              res.status(200).json({ msg: "Jesteś w tym pokoju!" });
-            else {
-              if (room.users.length == room.max_players) {
-                res.status(200).json({ msg: "Pokój jest pełny!" });
-              } else {
-                let game = axios
-                  .post("/api/game", {
-                    game_name: room.game_name
-                  })
-                  .then(resp => {
-                    return resp.data.game;
-                  })
-                  .catch(err => console.log(err));
-                console.log(game);
-                var userElement = createUserElement(
-                  req.body.username,
-                  game.game_stats,
-                  false
-                );
-                Room.updateOne(
-                  { room_name: req.body.room_name },
-                  {
-                    $push: { users: userElement }
-                  },
-                  err => {
-                    if (err) res.status(500).send();
-                    else res.status(200).json({ msg: "Success" });
-                  }
-                );
+        else if (!room) res.status(200).json({ msg: "Pokój nie istnieje!" });
+        else {
+          for (let u of room.users) {
+            if (u.username == req.body.username) {
+              for (let v of u.values) {
+                if (v.value_name == req.body.value_name) {
+                  v.value = req.body.new_value;
+                }
               }
             }
           }
-        );
+          room.save(err => {
+            if (err) console.log(err);
+          });
+          res.status(200).json({ ok: "OK" });
+        }
       }
-    });
-  });*/
+    );
+  });
   return Router;
 };
