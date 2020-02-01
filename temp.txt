@@ -8,3 +8,22 @@
             );
           })}
         </DropdownButton>
+
+
+                  {getUserDataFromRoom(user.username).values.map(v => {
+            return (
+              <Row key={v.value_name + "_row"}>
+                <ValueButton
+                  value={v.value_name}
+                  onClick={e => setSelectedValue(e.target.value)}
+                  style={
+                    selectedValue == v.value_name
+                      ? { backgroundColor: "#2C4764" }
+                      : { background: "none" }
+                  }
+                >
+                  {v.value_name}: {v.value}
+                </ValueButton>
+              </Row>
+            );
+          })}

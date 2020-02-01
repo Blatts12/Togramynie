@@ -5,6 +5,7 @@ var ValueElementSchema = new Schema(
   {
     value_name: String,
     value_max: Number,
+    value_min: Number,
     value: Number
   },
   { _id: false }
@@ -29,6 +30,8 @@ module.exports = mongoose.model("Room", {
   max_players: Number,
   create_date: Date,
   exp_date: Date,
+  incs: [Number],
+  decs: [Number],
   users: [UserElementSchema]
 });
 
@@ -42,6 +45,7 @@ module.exports.createUserElement = (username, gameStats, owner) => {
     tempValueElement.value_name = stat.value_name;
     tempValueElement.value = stat.value_default;
     tempValueElement.value_max = stat.value_max;
+    tempValueElement.value_min = stat.value_min;
 
     valueElements.push(tempValueElement);
   }

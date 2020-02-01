@@ -11,20 +11,41 @@ export default function JoinRoom({ user }) {
 
   async function submit(event) {
     event.preventDefault();
-    axios
-      .post("/api/room/join", {
+    let room = await axios
+      .post("/api/room", {
         room_name,
-        password,
-        username: user.username
+        password
       })
       .then(response => {
-        if (response.data.msg == "Success") {
-          window.location.href = process.env.BASE_URL + "room/" + room_name;
-        } else {
-          alert(response.data.msg);
-        }
-      })
-      .catch(err => console.log(err));
+        if (response.data.msg == "Success") return response.data.room;
+        alert(response.data.msg);
+        return undefined;
+      });
+    //.catch(err => console.log(err));
+    if (room) {
+      let game = await axios
+        .post("/api/game", {
+          game_name: room.game_name
+        })
+        .then(response => {
+          return response.data.game;
+        });
+
+      await axios
+        .post("/api/room/join", {
+          room_name,
+          username: user.username,
+          game
+        })
+        .then(response => {
+          if (response.data.msg == "Success") {
+            window.location.href = process.env.BASE_URL + "room/" + room_name;
+          } else {
+            alert(response.data.msg);
+          }
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   return (

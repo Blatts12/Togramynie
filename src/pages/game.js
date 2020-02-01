@@ -11,6 +11,7 @@ export default function Signup() {
   const [maxPlayers, setMaxPlayers] = useState("");
   const [gameStatsName, setGameStatsName] = useState("");
   const [gameStatsMax, setGameStatsMax] = useState("");
+  const [gameStatsMin, setGameStatsMin] = useState("");
   const [gameStatsDefault, setGameStatsDefault] = useState("");
   const [incrementators, setIncrementators] = useState("");
   const [decrementators, setDecrementators] = useState("");
@@ -19,11 +20,13 @@ export default function Signup() {
     var tab = [];
     var names = gameStatsName.split(",");
     var max = gameStatsMax.split(",");
+    var min = gameStatsMin.split(",");
     var defaults = gameStatsDefault.split(",");
     for (let i = 0; i < names.length; i++) {
       tab.push({
         value_name: names[i],
         value_max: max[i],
+        value_min: min[i],
         value_default: defaults[i]
       });
     }
@@ -75,6 +78,12 @@ export default function Signup() {
           placeholder="GameStatsMax"
           onChange={e => setGameStatsMax(e.target.value)}
           value={gameStatsMax}
+        />
+        <Form.Control
+          type="text"
+          placeholder="GameStatsMin"
+          onChange={e => setGameStatsMin(e.target.value)}
+          value={gameStatsMin}
         />
         <Form.Control
           type="text"

@@ -11,7 +11,7 @@ export default function ToRoom({ user }) {
   async function submit(event) {
     event.preventDefault();
     axios
-      .post("/api/room/user/check", {
+      .post("/api/room/check", {
         room_name,
         username: user.username
       })
