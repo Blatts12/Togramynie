@@ -3,33 +3,64 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
+import useSocket from "../hooks/useSocket";
 const { useState } = require("react");
 
 export default function JoinRoom({ user }) {
   const [room_name, setRoomName] = useState("");
   const [password, setPassword] = useState("");
 
+  const socket = useSocket("joinRoom", data => {
+    console.log("join");
+  });
+
   async function submit(event) {
     event.preventDefault();
-    axios
-      .post("/api/room/join", {
+    let room = await axios
+      .post("/api/room", {
         room_name,
-        password,
-        username: user.username
+        password
       })
       .then(response => {
-        if (response.data.msg == "Success") {
-          window.location.href = process.env.BASE_URL;
-        } else {
-          alert(response.data.msg);
-        }
-      })
-      .catch(err => console.log(err));
+        if (response.data.msg == "Success") return response.data.room;
+        alert(response.data.msg);
+        return undefined;
+      });
+    //.catch(err => console.log(err));
+    if (room) {
+      let game = await axios
+        .post("/api/game", {
+          game_name: room.game_name
+        })
+        .then(response => {
+          return response.data.game;
+        });
+
+      await axios
+        .post("/api/room/join", {
+          room_name,
+          username: user.username,
+          game
+        })
+        .then(response => {
+          if (response.data.msg == "Success") {
+            socket.emit("joinRoom", {
+              room_name: room_name,
+              userData: response.data.userData
+            });
+            window.location.href = process.env.BASE_URL + "room/" + room_name;
+          } else {
+            alert(response.data.msg);
+          }
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   return (
     <Container>
       <Form onSubmit={submit}>
+        <br />
         <Form.Label>
           <h2>Dołącz do pokoju</h2>
         </Form.Label>
@@ -48,7 +79,7 @@ export default function JoinRoom({ user }) {
         <br />
         <br />
         <Button variant="primary" type="submit">
-          Login
+          Dołącz
         </Button>
       </Form>
     </Container>

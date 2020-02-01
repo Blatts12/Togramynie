@@ -11,13 +11,13 @@ export default function ToRoom({ user }) {
   async function submit(event) {
     event.preventDefault();
     axios
-      .post("/api/room/user/check", {
+      .post("/api/room/check", {
         room_name,
         username: user.username
       })
       .then(response => {
         if (response.data.msg == "Success") {
-          window.location.href = process.env.BASE_URL + "profile";
+          window.location.href = process.env.BASE_URL + "room/" + room_name;
         } else {
           alert(response.data.msg);
         }
@@ -28,6 +28,7 @@ export default function ToRoom({ user }) {
   return (
     <Container>
       <Form onSubmit={submit}>
+        <br />
         <Form.Label>
           <h2>Wejdź do pokoju</h2>
         </Form.Label>
@@ -40,7 +41,7 @@ export default function ToRoom({ user }) {
         <br />
         <br />
         <Button variant="primary" type="submit">
-          Login
+          Wejdź
         </Button>
       </Form>
     </Container>

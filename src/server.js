@@ -29,12 +29,13 @@ mongoose.connect(process.env.DB_CON, {
 
 io.on("connection", socket => {
   socket.on("updateRoom", data => {
-    axios.post("/api/room/user/value/update", {
-      room_name: data.room_name,
-      username: data.username,
-      new_value: data.new_value
+    axios.post("/api/room/update", data).then(resp => {
+      if (resp.data.msg) console.log(resp.data.msg);
     });
     socket.broadcast.emit("updateRoom", data);
+  });
+  socket.on("joinRoom", data => {
+    socket.broadcast.emit("joinRoom", data);
   });
 });
 

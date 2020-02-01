@@ -4,6 +4,7 @@ import Head from "next/head";
 import Container from "react-bootstrap/Container";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
