@@ -61,6 +61,8 @@ module.exports = function() {
         res.status(200).json({ msg: "Pokój to ten nazwie nie istnieje" });
       else if (req.body.password && !isValidPassword(room, req.body.password))
         res.status(200).json({ msg: "Niepoprawne hasło!" });
+      else if (req.body.password && room.users.length == room.max_players)
+        res.status(200).json({ msg: "Pokój jest pełny" });
       else res.status(200).json({ msg: "Success", room });
     });
   });
